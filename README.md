@@ -167,11 +167,11 @@ a:1
 ```
 
 ## Condition
-Condition cons cell begins with `^?`.
-L of it is condition, T or F.
-G of it is 'return value' cons cell.
-You may already understand,
-L of 'return value cons cell' is value for T,
+Condition cons cell begins with `^?`.<br>
+L of it is condition, T or F.<br>
+G of it is 'return value' cons cell.<br>
+You may already understand,<br>
+L of 'return value cons cell' is value for T,<br>
 G of 'return value cons cell' is value for F.
 
 ```
@@ -179,3 +179,23 @@ G of 'return value cons cell' is value for F.
 "That's F!"
 
 ```
+
+## Apply lambda
+`^!` makes 'application cons cell'.
+L of 'application cons cell' is function.
+G of 'application cons cell' is argument.
+
+```
+> ^! (^\ x:x):1
+^<APPL (^\ x:x) <= 1>
+```
+
+Example below translated in Haskell is
+
+``` Haskell
+> (\x -> x) 1
+1
+```
+
+But, note that 'application cons cell' is NOT 'eval'ed.
+`^! (^\ x:x):1` doesn't make REPL result `1`, unlike Haskell.
