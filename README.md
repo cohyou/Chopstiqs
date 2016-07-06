@@ -25,7 +25,7 @@ and can get tail by using `#G`.
 
 ```
 > ^$ "a":1
-^<SMBL "a":1>
+^[SMBL "a":1]
 
 > #L ^$ "a":1
 "a"
@@ -34,20 +34,20 @@ and can get tail by using `#G`.
 1
 
 > a
-^<SMBL "a":>
+^[SMBL "a":]
 ```
 
 `^\` makes lambda AST cell. L of it is symbol, and G of it is body of lambda.
 
 ```
 > ^\ x:x
-^<FUNC x -> x>
+^[FUNC x -> x]
 
 > #L ^\ x:x
-^<SMBL "x">
+^[SMBL "x"]
 
 > #G ^\ x:x
-^<SMBL "x">
+^[SMBL "x"]
 ```
 
 `^N` bevaves like 'NULL', 'nil', 'null' for other languages.
@@ -187,7 +187,7 @@ G of 'application cons cell' is argument.
 
 ```
 > ^! (^\ x:x):1
-^<APPL (^\ x:x) <= 1>
+^[APPL ^[FUNC x -> x] <= 1]
 ```
 
 Example below translated in Haskell is
@@ -198,4 +198,4 @@ Example below translated in Haskell is
 ```
 
 But, note that 'application cons cell' is NOT 'eval'ed.
-`^! (^\ x:x):1` doesn't make REPL result `1`, unlike Haskell.
+`^! (^\ x:x):1` does NOT make REPL result `1`, unlike Haskell.
