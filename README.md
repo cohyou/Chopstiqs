@@ -210,7 +210,7 @@ Note that empty tuple `{}` is NOT unit.
 ;
 ```
 
-## Define
+## Definition
 
 Use `^$` for define symbol regardless of what type of symbol will bound (function, macro, variables  etc).
 
