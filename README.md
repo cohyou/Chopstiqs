@@ -135,13 +135,10 @@ Empty tuple is `{}`. This equals `^* N:N`.
 
 ## List and Record
 Like other Lisps, list consist of cons cells.
-You can use `;` or `[]` for empty list instead of `N:N`.
+You can use `[]` for empty list instead of `N:N`.
 ```
 > N:N
 []
-
-> ;
-;
 
 > []
 []
@@ -167,6 +164,7 @@ a:1
 ```
 
 ## Condition
+
 Condition cons cell begins with `^?`.<br>
 L of it is condition, T or F.<br>
 G of it is 'return value' cons cell.<br>
@@ -181,6 +179,7 @@ G of 'return value cons cell' is value for F.
 ```
 
 ## Apply lambda
+
 `^!` makes 'application cons cell'.
 L of 'application cons cell' is function.
 G of 'application cons cell' is argument.
@@ -199,3 +198,14 @@ Example below translated in Haskell is
 
 But, note that 'application cons cell' is NOT 'eval'ed.
 `^! (^\ x:x):1` does NOT make REPL result `1`, unlike Haskell.
+
+
+## Unit
+
+Unit is singleton value. You can use `;` for it.<br>
+Note that empty tuple `{}` is NOT unit.
+
+```
+> ;
+;
+```
