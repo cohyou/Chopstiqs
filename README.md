@@ -129,7 +129,7 @@ Empty tuple is `{}`. This equals `^* N:N`.
 @|| ^* N:N
 {}
 
-> {}
+@|| {}
 {}
 ```
 
@@ -143,7 +143,7 @@ You can use `[]` for empty list instead of `N:N`.
 @|| []
 []
 
-> 1:2:3:4:5:[]
+@|| 1:2:3:4:5:[]
 [1 2 3 4 5]
 ```
 
