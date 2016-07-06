@@ -174,8 +174,7 @@ G of 'return value cons cell' is value for F.
 
 ```
 @|| ^? F:("That's T!":"That's F!")
-"That's F!"
-
+^[COND F:("That's T!":"That's F!")]
 ```
 
 ## Apply lambda
