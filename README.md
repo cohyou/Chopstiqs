@@ -15,9 +15,9 @@ and can get tail by using `#G`.
 (You may have the question why we select 'L' & 'G'...neither 'car' & 'cdr' nor 'L'(left) & 'R'(right) nor 'H'(head) & 'T'(tail). Please imagine what 'L' & 'G' stands for...)
 
 ```
-> #L 1:2
+@|| #L 1:2
 1
-> #G 1:2
+@|| #G 1:2
 2
 ```
 
@@ -192,7 +192,7 @@ G of 'application cons cell' is argument.
 Example below translated in Haskell is
 
 ``` Haskell
-@|| (\x -> x) 1
+> (\x -> x) 1
 1
 ```
 
