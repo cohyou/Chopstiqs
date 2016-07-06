@@ -25,7 +25,7 @@ and can get tail by using `#G`.
 
 ```
 > ^$ "a":1
-^[SMBL "a":1]
+a=1
 
 > #L ^$ "a":1
 "a"
@@ -34,20 +34,20 @@ and can get tail by using `#G`.
 1
 
 > a
-^[SMBL "a":]
+a
 ```
 
 `^\` makes lambda AST cell. L of it is symbol, and G of it is body of lambda.
 
 ```
 > ^\ x:x
-^[FUNC x -> x]
+^[FUNC x:x]
 
 > #L ^\ x:x
-^[SMBL "x"]
+x
 
 > #G ^\ x:x
-^[SMBL "x"]
+x
 ```
 
 `^N` bevaves like 'NULL', 'nil', 'null' for other languages.
@@ -186,7 +186,7 @@ G of 'application cons cell' is argument.
 
 ```
 > ^! (^\ x:x):1
-^[APPL ^[FUNC x -> x] <= 1]
+^[APPL ^[FUNC x:x]:1]
 ```
 
 Example below translated in Haskell is
@@ -208,4 +208,13 @@ Note that empty tuple `{}` is NOT unit.
 ```
 > ;
 ;
+```
+
+## Define
+
+Use `^$` for define symbol regardless of what type of symbol will bound (function, macro, variables  etc).
+
+```
+> ^$ "identity":(^\ x:x)
+identity=^[FUNC x:x]
 ```
