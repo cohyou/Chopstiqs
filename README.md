@@ -50,15 +50,11 @@ x
 x
 ```
 
-`^N` bevaves like 'NULL', 'nil', 'null' for other languages.
+`N` bevaves like 'NULL', 'nil', 'null' for other languages.
 Chopstiqs call this 'none'.
 L of N is N, and also G of N is N.
-You can use `N` instead of `^N`.
 
 ```
-@|| ^N
-N
-
 @|| N
 N
 
@@ -69,14 +65,10 @@ N
 N
 ```
 
-`^F` means false.
+`F` means false.
 L of F is N, and also G of F is itself.
-You can use `F` instead of `^F`.
 
 ```
-@|| ^F
-F
-
 @|| F
 F
 
@@ -87,15 +79,11 @@ N
 F
 ```
 
-`^T` means true.
+`T` means true.
 L of T is itself, and also G of T is N
 (this is the opposite behavior to F).
-You can use `T` instead of `^T`.
 
 ```
-@|| ^T
-T
-
 @|| T
 T
 
@@ -216,4 +204,19 @@ Use `^$` for define symbol regardless of what type of symbol will bound (functio
 ```
 @|| ^$ "identity":(^\ x:x)
 identity=^[FUNC x:x]
+```
+
+## Self reference
+
+To make self reference, use `#.`.
+
+```
+@|| 1:#.
+1:#.
+
+@|| #G 1:#.
+1
+
+@|| #G #G 1:#.
+1
 ```
