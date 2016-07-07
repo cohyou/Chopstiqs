@@ -5,7 +5,12 @@ def clear_color():
     print('\x1b[39m', end='')
 
 class Tokn:
-    pass
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return '^[TOKN "' + self.name + '"]'
+
 
 class Briq:
     def __init__(self):
@@ -35,17 +40,15 @@ while True:
         print('gochisosama!')
         break
 
-    output = '('
-    for c in inputed:
-        if c == ' ':
-            output += ') ('
-        else:
-            output += c
+    tokens = inputed.split()
+    token_instances = []
+    for t in tokens:
+        token_instances.append(Tokn(t))
 
-    output += ')'
+    output = ''
 
     b = Briq()
 
-    print(output + ' ' + repr(b))
+    print(repr(token_instances))
 
     clear_color()
