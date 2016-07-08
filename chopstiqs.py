@@ -25,6 +25,18 @@ class Briq:
 white = '\x1b[49m'
 black_forecolor = '\x1b[30m'
 
+def is_alpha(c):
+    return ord(c) in range(65, 90) or ord(c) in range(97, 122)
+
+def is_whitespace(c):
+    return c in [' ', '\t', '\n']
+
+def is_cell_prefix(c):
+    return c == '^'
+
+def is_annot_prefix(c):
+    return c in ['@', '%', '!', '$', '?', '\\', '#']
+
 print('itadakimasu!')
 
 while True:
@@ -39,6 +51,10 @@ while True:
     if inputed in ['@@[]', 'gochi', '@@@', '@@quit', 'gochidesu']:
         print('gochisosama!')
         break
+
+    if is_alpha(inputed[0]):
+        print('alphabet!')
+        continue
 
     tokens = inputed.split()
     token_instances = []
