@@ -146,6 +146,7 @@ class Lexer:
             ')':TOKN_RPRN,
             ';':TOKN_UNIT}
         t = tokn_type_dict[self.c]
+        self.change_state_delim()
         self.consume()
         return Tokn(t, c)
 
@@ -201,7 +202,7 @@ class Lexer:
         while not self.is_whitespace(self.c):
             if self.c == ':':
                 self.state = self.STATE_CNSSTT
-                return Tokn(TOKN_CONS_CNTT, symbol_name)
+                return Tokn(TOKN_SMBL, symbol_name)
             elif self.is_delimiter():
                 self.change_state_delim()
                 break
@@ -253,6 +254,7 @@ class Lexer:
                         print('scan error: %s' % self.c)
                         break
             elif self.state == self.STATE_MRKSTT:
+                self.state = self.STATE_NORMAL
                 return self.scan_mark_name()
             elif self.state == self.STATE_STRSTT:
                 return self.scan_string()
@@ -269,17 +271,35 @@ class Lexer:
                 return Tokn(TOKN_CONS, ':')
             elif self.state == self.STATE_CNSEND:
                 self.state = self.STATE_NORMAL
-                return self.scan_cons_content()
+                if self.is_whitespace(self.c):
+                    return Tokn(TOKN_CONS_CNTT, '')
+                elif self.c in [']', '}', ')', ';']:
+                    return Tokn(TOKN_CONS_CNTT, '')
+                # return self.scan_cons_content()
             elif self.state in [self.STATE_LSTSTT, self.STATE_LSTEND,
                                 self.STATE_DCTSTT, self.STATE_DCTEND,
                                 self.STATE_PRNSTT, self.STATE_PRNEND,
                                 self.STATE_UNTDLM]:
-                self.state = self.STATE_NORMAL
-                return self.scan_delim()
+
+                # cons(:) is valid for no whitespaces
+                if self.state in [self.STATE_LSTEND, self.STATE_DCTEND,
+                                  self.STATE_PRNEND, self.STATE_UNTDLM]:
+                    if self.c == ':':
+                        self.state = self.STATE_CNSSTT
+                    else:
+                        self.state = self.STATE_NORMAL
+                else:
+                    self.state = self.STATE_NORMAL
+                    if self.is_delimiter():
+                        return self.scan_delim()
             else:
                 print('invalid state!')
                 break
-        return Tokn(TOKN_EOF, '<eof>')
+        if self.state == self.STATE_CNSEND:
+            self.state = self.STATE_NORMAL
+            return Tokn(TOKN_CONS_CNTT, '')
+        else:
+            return Tokn(TOKN_EOF, '<eof>')
 
 
 # Parser
