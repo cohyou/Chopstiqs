@@ -39,6 +39,18 @@ def is_annot_prefix(c):
 
 print('itadakimasu!')
 
+
+state = 'normal'
+tokens = []
+token_buffer = ''
+
+def reset_buffering():
+    global state, tokens, token_buffer
+    state = 'normal'
+    if token_buffer != '':
+        tokens.append(token_buffer)
+    token_buffer = ''
+
 while True:
     clear_color()
     print(white + black_forecolor + '@@\x1b[34m||' + white, end=' ')
@@ -52,14 +64,53 @@ while True:
         print('gochisosama!')
         break
 
-    if is_alpha(inputed[0]):
-        print('alphabet!')
-        continue
+    reset_buffering()
 
-    tokens = inputed.split()
+    for c in inputed:
+        if state == 'normal':
+            if is_whitespace(c):
+                pass
+            elif is_annot_prefix(c):
+                state = 'annot'
+                tokens.append(c)
+            elif is_alpha(c):
+                state = 'symbol'
+                token_buffer += c
+            elif c == '"':
+                state = 'string'
+            elif c == '[':
+                state = 'list'
+                tokens.append(c)
+        elif state == 'annot':
+            if is_whitespace(c):
+                reset_buffering()
+            else:
+                token_buffer += c
+        elif state == 'symbol':
+            if is_whitespace(c):
+                reset_buffering()
+            else:
+                token_buffer += c
+        elif state == 'string':
+            if c == '"':
+                reset_buffering()
+            else:
+                token_buffer += c
+        elif state == 'list':
+            if c == ']':
+                reset_buffering()
+            else:
+                token_buffer += c
+
+
+    if len(token_buffer) > 0:
+        reset_buffering()
+
     token_instances = []
     for t in tokens:
         token_instances.append(Tokn(t))
+
+    tokens = []
 
     output = ''
 
