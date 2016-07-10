@@ -226,6 +226,8 @@ class Lexer:
                     self.state = self.STATE_STRSTT
                     return Tokn(TOKN_DBQT, '"')
                 elif self.is_digit(self.c):
+                    if self.idx+1 < len(self.inputed) and self.inputed[self.idx+1] == ':':
+                        self.state = self.STATE_CNSSTT
                     return self.scan_digit()
                 elif self.c in ['@', '%', '!', '$', '?', '\\', '#']:
                     tokn_type_dict = {
@@ -259,7 +261,10 @@ class Lexer:
             elif self.state == self.STATE_STRSTT:
                 return self.scan_string()
             elif self.state == self.STATE_STREND:
-                self.state = self.STATE_NORMAL
+                if self.idx+1 < len(self.inputed) and self.inputed[self.idx+1] == ':':
+                    self.state = self.STATE_CNSSTT
+                else:
+                    self.state = self.STATE_NORMAL
                 self.consume()
                 return Tokn(TOKN_DBQT, '"')
             elif self.state == self.STATE_ANNTNM:
