@@ -315,6 +315,19 @@ class Lexer:
 class Parser:
     def __init__(self, input_str):
         self.inputed = input_str
+        self.lexer = Lexer(self.inputed)
+
+    def consume(self):
+        pass
+
+    def match(self):
+        pass
+
+    def list(self):
+        pass
+
+    def elements(self):
+        pass
 
     def scan(self):
         lexer = Lexer(self.inputed)
