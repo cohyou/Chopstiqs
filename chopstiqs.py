@@ -122,6 +122,9 @@ class Lexer:
         while self.is_digit(self.c):
             digit_content += self.c
             self.consume()
+        if not (self.is_whitespace(self.c) or self.is_delimiter()):
+            raise Exception('invalid token')
+
         return Tokn(TOKN_DIGT, digit_content)
 
     def scan_string(self):
