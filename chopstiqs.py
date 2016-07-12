@@ -92,7 +92,8 @@ class Lexer:
 
     def __init__(self, inputed):
         self.inputed = inputed
-        self.c = inputed[self.idx]
+        if len(self.inputed) > 0:
+            self.c = inputed[self.idx]
 
     def consume(self):
         self.idx += 1
@@ -132,11 +133,14 @@ class Lexer:
         while self.c != '"':
             string_content += self.c
             self.consume()
+            if self.c == '':
+                return Tokn(TOKN_EOF, '<eof>')
+
         self.state = self.STATE_STREND
         return Tokn(TOKN_TEXT, string_content)
 
     def is_delimiter(self):
-        return self.c in ['[', ']', '{', '}', '(', ')', ';']
+        return self.c in ['[', ']', '{', '}', '(', ')', ';', '"']
 
     def scan_delim(self):
         c = self.c
@@ -147,7 +151,8 @@ class Lexer:
             '}':TOKN_RDCT,
             '(':TOKN_LPRN,
             ')':TOKN_RPRN,
-            ';':TOKN_UNIT}
+            ';':TOKN_UNIT,
+            '"':TOKN_DBQT}
         t = tokn_type_dict[self.c]
         self.change_state_delim()
         self.consume()
@@ -161,7 +166,8 @@ class Lexer:
             '}':self.STATE_DCTEND,
             '(':self.STATE_PRNSTT,
             ')':self.STATE_PRNEND,
-            ';':self.STATE_UNTDLM}
+            ';':self.STATE_UNTDLM,
+            '"':self.STATE_STRSTT}
         self.state = state_dict[self.c]
 
     def scan_mark_name(self):
@@ -312,21 +318,57 @@ class Lexer:
 
 # Parser
 
+class TermParsingError(Exception):
+    pass
+
+class MatchingError(Exception):
+    pass
+
 class Parser:
     def __init__(self, input_str):
         self.inputed = input_str
         self.lexer = Lexer(self.inputed)
+        self.consume()
 
     def consume(self):
-        pass
+        self.current_token = self.lexer.next_token()
+        # print(self.current_token)
 
-    def match(self):
-        pass
+    def match(self, x):
+        if self.current_token.tp == x:
+            self.consume()
+        else:
+            raise MatchingError('Error on matching!')
+
+    def text(self):
+        self.match(TOKN_DBQT)
+        self.match(TOKN_TEXT)
+        self.match(TOKN_DBQT)
+
+    def term(self):
+        if self.current_token.tp == TOKN_SMBL:
+            self.match(TOKN_SMBL)
+        elif self.current_token.tp == TOKN_DIGT:
+            self.match(TOKN_DIGT)
+        elif self.current_token.tp == TOKN_DBQT:
+            self.text()
+        else:
+            raise TermParsingError('Error on parsing TERM!')
+
+    def terms(self):
+        try:
+            while self.current_token.tp != TOKN_EOF:
+                self.term()
+        except TermParsingError:
+            pass
 
     def list(self):
         pass
 
     def elements(self):
+        pass
+
+    def cell(self):
         pass
 
     def scan(self):
@@ -362,7 +404,10 @@ while True:
         break
 
     parser = Parser(inputed)
-    parser.scan()
+    try:
+        parser.terms()
+    except Exception as e:
+        print(e)
 
 """
 class Briq:
