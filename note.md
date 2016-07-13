@@ -1,5 +1,14 @@
 字句構造
 
+拡張アルファベット文字は，識別子内であたかも英字であるかのように使っても よい。以下は拡張アルファベット文字である。
+
++ - . * / < = > ! ? : $ % _ & ~ ^
+
+
+上記は以下のURLより得た情報である。BNFもあるので参照あれ。
+https://sites.google.com/site/shidoinfo/Home/programing-lang/関数型プログラミング言語/lisp/scheme/r4rs/zi-ju-gui-yue
+
+
 
 ^ タグ これはあくまでセルにつくもの
 : これはcons、現在、唯一の中値演算子
