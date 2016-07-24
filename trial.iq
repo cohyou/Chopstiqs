@@ -14,3 +14,13 @@ a.b!c.d!e|f|g
 
 
 {^a:b ^c:d}
+
+^makebc~
+^clearbc~[bucket_no]
+^changebc~[bucket_no]
+
+^push~[immidiate_value]
+^pop~
+
+^compare~
+^jump~[address]
